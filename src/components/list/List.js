@@ -1,7 +1,12 @@
-export default function ListDisplay({ activity }) {
+export default function ListDisplay({ activity, onDelete, id }) {
   return (
     <>
-      <li>{activity}</li>
+      <li>
+        {activity}
+        <button type="button" onClick={() => onDelete(id)}>
+          x
+        </button>
+      </li>
     </>
   );
 }

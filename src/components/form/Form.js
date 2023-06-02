@@ -3,14 +3,13 @@ export default function form({ onAddActivity }) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-
-    console.log(data);
     const inputName = data.name;
     const isChecked = event.target.goodWeather.checked;
     onAddActivity(inputName, isChecked);
     event.target.reset();
     event.target.name.focus();
   }
+
   return (
     <>
       <form onSubmit={handleSubmit}>
