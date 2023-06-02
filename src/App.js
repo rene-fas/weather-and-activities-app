@@ -7,6 +7,7 @@ import useLocalStorageState from "use-local-storage-state";
 
 function App() {
   const [activities, setActivities] = useLocalStorageState("activities", []);
+  const isGoodWeather = true;
 
   function handleAddActivity(activity) {
     const newActivity = {
@@ -25,12 +26,16 @@ function App() {
   const activitiesList =
     activities !== null && activities !== undefined ? activities : [];
 
+  const goodWeatherActivitiesList = activitiesList.filter(
+    (activity) => activity.goodWeather === "on"
+  );
+
   return (
     <>
       <Form onAddActivity={handleAddActivity} />
 
       <ul>
-        {activitiesList.map((activity) => (
+        {goodWeatherActivitiesList.map((activity) => (
           <ListDisplay key={activity.id} activity={activity.name} />
         ))}
       </ul>
