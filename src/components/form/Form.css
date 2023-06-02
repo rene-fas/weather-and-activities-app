@@ -1,0 +1,27 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border: solid black 2px;
+  border-radius: 20%;
+  margin: 20px;
+  padding: 20px;
+  position: relative;
+  gap: 10px;
+  background-color: beige;
+}
+
+.form-headline {
+  text-align: center;
+}
+
+.form-checkbox {
+  position: absolute;
+  top: 170px;
+  right: 140px;
+}
+
+.form-button {
+  width: 70px;
+  align-self: center;
+}

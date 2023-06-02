@@ -1,0 +1,9 @@
+.list {
+  background-color: beige;
+  color: red;
+}
+
+.list-container {
+  display: flex;
+  background-color: beige;
+}

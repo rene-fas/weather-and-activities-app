@@ -47,8 +47,10 @@ function App() {
   }
 
   function handleDelete(id) {
+
     setActivities((prevActivities) =>
       prevActivities.filter((activity) => activity.id !== id)
+
     );
   }
 
@@ -61,10 +63,12 @@ function App() {
 
   return (
     <>
+
       {weatherData && (
-        <>
-          <div>{weatherData.temperature}</div>
-          <div>{weatherData.condition}</div>
+        <><div className="temperature-container">
+          <div className="temperature">{weatherData.temperature}</div>
+          <div className="condition-pic">{weatherData.condition}</div>
+</div>
           <Headline isGoodWeather={weatherData.isGoodWeather} />
         </>
       )}
