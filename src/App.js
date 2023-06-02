@@ -1,6 +1,6 @@
 import "./App.css";
 import Form from "./components/form/Form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { uid } from "uid";
 import ListDisplay from "./components/list/List";
 import useLocalStorageState from "use-local-storage-state";
@@ -13,16 +13,24 @@ function App() {
   const [condition, setCondition] = useState(null);
 
   async function fetchData() {
-    const response = await fetch(
-      "https://example-apis.vercel.app/api/weather/arctic"
-    );
+    const response = await fetch("https://example-apis.vercel.app/api/weather");
     const data = await response.json();
-    console.log(data);
     setWeather(data.isGoodWeather);
     setTemperature(data.temperature);
     setCondition(data.condition);
   }
-  fetchData();
+
+  useEffect(() => {
+    fetchData();
+
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   function handleAddActivity(inputName, isChecked) {
     const newActivity = {
@@ -36,6 +44,19 @@ function App() {
       updatedActivities.push(newActivity);
       return updatedActivities;
     });
+  }
+
+  function handleDelete(id) {
+    setActivities(
+      activities.filter((activity) => {
+        return activity.id !== id;
+      })
+    );
+  }
+  function handleDelete(id) {
+    setActivities((prevActivities) =>
+      prevActivities.filter((activity) => activity.id !== id)
+    );
   }
 
   const activitiesList =
@@ -52,53 +73,17 @@ function App() {
       <Headline isGoodWeather={weather} />
       <ul>
         {goodWeatherActivitiesList.map((activity) => (
-          <ListDisplay key={activity.id} activity={activity.name} />
+          <ListDisplay
+            onDelete={handleDelete}
+            key={activity.id}
+            activity={activity.name}
+            id={activity.id}
+          />
         ))}
       </ul>
       <Form onAddActivity={handleAddActivity} />
     </>
   );
 }
-/**if (isPacked) {
-  return <li className="item">{name} ✔</li>;
-}
-return <li className="item">{name}</li>; */
-export default App;
-
-/*
-import "./App.css";
-import Form from "./components/form/Form";
-import { useState } from "react";
-import { uid } from "uid";
-import ListDisplay from "./components/list/List";
-
-function App() {
-  const [activities, setActivities] = useState([]);
-
-  function handleAddActivity(activity) {
-    const newActivity = {
-      id: uid(),
-      name: activity.name,
-      goodWeather: activity.goodWeather,
-    };
-
-    setActivities([...activities, newActivity]);
-    console.log(activities);
-  }
-
-  return (
-    <>
-      <Form onAddActivity={handleAddActivity} />
-
-      <ul>
-        {activities.map((activity) => {
-          return <ListDisplay key={activity.id} activity={activity.name} />;
-        })}
-      </ul>
-    </>
-  );
-}
 
 export default App;
-
- */
