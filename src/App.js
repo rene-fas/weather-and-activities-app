@@ -8,16 +8,16 @@ import Headline from "./components/list/Headline";
 
 function App() {
   const [activities, setActivities] = useLocalStorageState("activities", []);
-  const [weather, setWeather] = useState(null);
-  const [temperature, setTemperature] = useState(null);
-  const [condition, setCondition] = useState(null);
+  const [weatherData, setWeatherData] = useState(null);
 
   async function fetchData() {
     const response = await fetch("https://example-apis.vercel.app/api/weather");
     const data = await response.json();
-    setWeather(data.isGoodWeather);
-    setTemperature(data.temperature);
-    setCondition(data.condition);
+    setWeatherData({
+      isGoodWeather: data.isGoodWeather,
+      temperature: data.temperature,
+      condition: data.condition,
+    });
   }
 
   useEffect(() => {
@@ -47,13 +47,6 @@ function App() {
   }
 
   function handleDelete(id) {
-    setActivities(
-      activities.filter((activity) => {
-        return activity.id !== id;
-      })
-    );
-  }
-  function handleDelete(id) {
     setActivities((prevActivities) =>
       prevActivities.filter((activity) => activity.id !== id)
     );
@@ -63,14 +56,19 @@ function App() {
     activities !== null && activities !== undefined ? activities : [];
 
   const goodWeatherActivitiesList = activitiesList.filter(
-    (activity) => activity.goodWeather === weather
+    (activity) => activity.goodWeather === weatherData?.isGoodWeather
   );
 
   return (
     <>
-      <div>{temperature}</div>
-      <div>{condition}</div>
-      <Headline isGoodWeather={weather} />
+      {weatherData && (
+        <>
+          <div>{weatherData.temperature}</div>
+          <div>{weatherData.condition}</div>
+          <Headline isGoodWeather={weatherData.isGoodWeather} />
+        </>
+      )}
+
       <ul>
         {goodWeatherActivitiesList.map((activity) => (
           <ListDisplay
@@ -81,6 +79,7 @@ function App() {
           />
         ))}
       </ul>
+
       <Form onAddActivity={handleAddActivity} />
     </>
   );
