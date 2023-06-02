@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.temperature-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.temperature {
+  font-size: 4em;
+}
+
+.condition-pic {
+  font-size: 4em;
+}

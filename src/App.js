@@ -53,11 +53,6 @@ function App() {
       })
     );
   }
-  function handleDelete(id) {
-    setActivities((prevActivities) =>
-      prevActivities.filter((activity) => activity.id !== id)
-    );
-  }
 
   const activitiesList =
     activities !== null && activities !== undefined ? activities : [];
@@ -68,8 +63,10 @@ function App() {
 
   return (
     <>
-      <div>{temperature}</div>
-      <div>{condition}</div>
+      <div className="temperature-container">
+        <div className="temperature">{temperature}°C</div>
+        <div className="condition-pic">{condition}</div>
+      </div>
       <Headline isGoodWeather={weather} />
       <ul>
         {goodWeatherActivitiesList.map((activity) => (

@@ -1,12 +1,16 @@
+import "./List.css";
+
 export default function ListDisplay({ activity, onDelete, id }) {
   return (
     <>
-      <li>
-        {activity}
-        <button type="button" onClick={() => onDelete(id)}>
-          x
-        </button>
-      </li>
+      <div classList="list-container">
+        <li classList="list">
+          {activity}
+          <button type="button" onClick={() => onDelete(id)}>
+            x
+          </button>
+        </li>
+      </div>
     </>
   );
 }
