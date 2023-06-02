@@ -5,9 +5,11 @@ export default function form({ onAddActivity }) {
     const data = Object.fromEntries(formData);
 
     console.log(data);
-    onAddActivity(data);
+    const inputName = data.name;
+    const isChecked = event.target.goodWeather.checked;
+    onAddActivity(inputName, isChecked);
     event.target.reset();
-    //event.target.focus("name"); //check later
+    event.target.name.focus();
   }
   return (
     <>

@@ -4,16 +4,31 @@ import { useState } from "react";
 import { uid } from "uid";
 import ListDisplay from "./components/list/List";
 import useLocalStorageState from "use-local-storage-state";
+import Headline from "./components/list/Headline";
 
 function App() {
   const [activities, setActivities] = useLocalStorageState("activities", []);
-  const isGoodWeather = true;
+  const [weather, setWeather] = useState(null);
+  const [temperature, setTemperature] = useState(null);
+  const [condition, setCondition] = useState(null);
 
-  function handleAddActivity(activity) {
+  async function fetchData() {
+    const response = await fetch(
+      "https://example-apis.vercel.app/api/weather/arctic"
+    );
+    const data = await response.json();
+    console.log(data);
+    setWeather(data.isGoodWeather);
+    setTemperature(data.temperature);
+    setCondition(data.condition);
+  }
+  fetchData();
+
+  function handleAddActivity(inputName, isChecked) {
     const newActivity = {
       id: uid(),
-      name: activity.name,
-      goodWeather: activity.goodWeather,
+      name: inputName,
+      goodWeather: isChecked,
     };
 
     setActivities((prevActivities) => {
@@ -27,22 +42,27 @@ function App() {
     activities !== null && activities !== undefined ? activities : [];
 
   const goodWeatherActivitiesList = activitiesList.filter(
-    (activity) => activity.goodWeather === "on"
+    (activity) => activity.goodWeather === weather
   );
 
   return (
     <>
-      <Form onAddActivity={handleAddActivity} />
-
+      <div>{temperature}</div>
+      <div>{condition}</div>
+      <Headline isGoodWeather={weather} />
       <ul>
         {goodWeatherActivitiesList.map((activity) => (
           <ListDisplay key={activity.id} activity={activity.name} />
         ))}
       </ul>
+      <Form onAddActivity={handleAddActivity} />
     </>
   );
 }
-
+/**if (isPacked) {
+  return <li className="item">{name} ✔</li>;
+}
+return <li className="item">{name}</li>; */
 export default App;
 
 /*
